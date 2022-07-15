@@ -1,6 +1,8 @@
 name: CD
-
-on:
+on: 
+  pull_request:
+    branches:
+      - developer
 
 jobs:
   build:
@@ -12,8 +14,8 @@ jobs:
       run: swift build -v
     - name: Run tests
       run: swift test -v
-      
-      
+
+
   deploy-Development:
     runs-on: macos-latest
     environment:
@@ -23,7 +25,7 @@ jobs:
     steps:
     - name: Run a one-line script
       run: echo Deploy Development
-      
+
   deploy-Homologate:
     runs-on: macos-latest
     environment:
@@ -33,7 +35,7 @@ jobs:
     steps:
     - name: Run a one-line script
       run: echo Deploy Homologate
-      
+
   deploy-Production:
     runs-on: macos-latest
     environment:
