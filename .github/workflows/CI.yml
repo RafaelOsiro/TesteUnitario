@@ -1,15 +1,36 @@
 name: Continuous Integration
 
-on: [push]
+on:
+  pull_request:
+    branches:
+      - main
+      - developer
 
 jobs:
-  build:
+  test:
 
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Build
-        run: swift build
-      - name: Run tests
-        run: swift test
+    - name: list device
+      run: xcrun xctrace list devices
+    - uses: actions/checkout@v2
+    - name: Build tests
+      run: |
+        set -o pipefail && \
+        xcodebuild clean build-for-testing  \
+          -scheme ProjetoTest-Ci \
+          -destination "platform=iOS Simulator,name=iPhone 8"  \
+           ONLY_ACTIVE_ARCH=NO \
+           CODE_SIGN_IDENTITY="" \
+           CODE_SIGNING_REQUIRED=NO  | xcpretty
+
+    - name: Run tests
+      run: |
+        set -o pipefail && \
+        xcodebuild test-without-building  \
+          -scheme ProjetoTest-Ci \
+          -destination "platform=iOS Simulator,name=iPhone 8"  \
+           ONLY_ACTIVE_ARCH=NO \
+           CODE_SIGN_IDENTITY="" \
+           CODE_SIGNING_REQUIRED=NO  | xcpretty
