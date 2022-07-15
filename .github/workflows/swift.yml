@@ -1,8 +1,5 @@
-name: CD2
-on: 
-  pull_request:
-    branches:
-      - main
+name: CD
+on: [push]
 
 jobs:
   build:
