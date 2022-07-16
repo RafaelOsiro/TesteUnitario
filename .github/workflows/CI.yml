@@ -25,4 +25,7 @@ jobs:
     needs: Build-Project
     steps:
       - name: Unitary Test iPhone 8
-        run: xcodebuild -scheme "TesteUnitario" -destination "platform=iOS Simulator,name=iPhone 8" test
+        run: xcodebuild
+          -scheme "TesteUnitario"
+          -destination "platform=iOS Simulator,name=iPhone 8"
+          test
