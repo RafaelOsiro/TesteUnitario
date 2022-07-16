@@ -6,42 +6,51 @@ on:
     branches: [main]
 
 jobs:
-  build:
+
+  Build-Project:
+    name: Build in iPhone 8
     runs-on: macos-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: xcodebuild 
+          -project "TesteUnitario.xcodeproj" -scheme "TesteUnitario" -destination "platform=iOS Simulator,name=iPhone 8" -configuration Release build
+          
+  Test-Project:
+    name: Unitary Test
+    runs-on: macos-latest
+    needs: Build-Project
+    steps:
+      - name: Test
+        run: xcodebuild -scheme "TesteUnitario" -destination "platform=iOS Simulator,name=iPhone 8" test
 
-  deploy-Development:
+  Deploy-Development:
     runs-on: macos-latest
     environment:
       name: Development
       url: 'www.google.com.br'
-    needs: build
+    needs: Test-Project
     steps:
     - name: Run a one-line script
       run: echo Deploy Development
 
-  deploy-Homologate:
+  Deploy-Homologate:
     runs-on: macos-latest
     environment:
       name: Homologate
       url: 'www.google.com.br'
-    needs: deploy-Development
+    needs: Deploy-Development
     steps:
     - name: Run a one-line script
       run: echo Deploy Homologate
 
-  deploy-Production:
+  Deploy-Production:
     runs-on: macos-latest
     environment:
       name: Homologate
       url: 'www.google.com.br'
-    needs: deploy-Homologate
+    needs: Deploy-Homologate
     steps:
     - name: Run a one-line script
       run: echo Deploy Production
