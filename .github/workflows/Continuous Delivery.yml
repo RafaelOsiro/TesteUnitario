@@ -86,14 +86,14 @@ jobs:
           
           # validate
           set -o pipefail && xcrun altool --validate-app \
-             -f ProjetoTest-Ci.ipa\
+             -f TesteUnitario.ipa\
              --type ios \
              --apiKey "$API_APP_STORE_ID_KEY"  \
              --apiIssuer "$API_APP_STORE_ISSUER_ID" | xcpretty
            
            # upload app
            set -o pipefail && xcrun altool --upload-app \
-             -f ProjetoTest-Ci.ipa\
+             -f TesteUnitario.ipa\
              --type ios \
              --apiKey "$API_APP_STORE_ID_KEY"  \
              --apiIssuer "$API_APP_STORE_ISSUER_ID" | xcpretty
