@@ -7,15 +7,26 @@ on: [push]
 ##      - developer
 
 jobs:
-  test:
-
+  iOS:
+    name: Test iOS
     runs-on: macos-latest
-
     steps:
-    - uses: actions/checkout@v2
-     
-    - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_13.2.1.app
-     
-    - name: Build and Test
-      run: xcodebuild clean build test -project TesteUnitario/TesteUnitario.xcodeproj -scheme "TesteUnitario" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+    
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Build
+        run: xcodebuild 
+          -project "TesteUnitario.xcodeproj" 
+          -scheme "TesteUnitario" 
+          -destination "generic/platform=iOS"
+          -configuration Release build CODE_SIGNING_ALLOWED=NO
+          
+      - name: Test
+        run: xcodebuild
+          -project "TesteUnitario.xcodeproj" 
+          -scheme "TesteUnitario" 
+          -destination "generic/platform=iOS"
+          -configuration Release test CODE_SIGNING_ALLOWED=NO
+          -destination "platform=iOS Simulator,name=iPhone 8"
+
