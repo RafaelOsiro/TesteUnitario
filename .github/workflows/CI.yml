@@ -13,9 +13,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Build and test
+      - name: Build
         run: xcodebuild 
           -project "TesteUnitario.xcodeproj" 
           -scheme "TesteUnitario" 
           -destination "generic/platform=iOS"
           -configuration Release build CODE_SIGNING_ALLOWED=NO
+      - name: Test
+        run: xcodebuild
+          -project "TesteUnitario.xcodeproj" 
+          -scheme "TesteUnitario" 
+          -destination "generic/platform=iOS"
+          -configuration Release test CODE_SIGNING_ALLOWED=NO
