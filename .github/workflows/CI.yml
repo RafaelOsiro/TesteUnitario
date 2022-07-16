@@ -18,12 +18,7 @@ jobs:
         
       - name: Build
         run: xcodebuild -project "TesteUnitario.xcodeproj" -scheme "TesteUnitario" -destination "platform=iOS Simulator,name=iPhone 8" -configuration Release build
-          
-  Unitary-Test:
-    name: Unitary Test in iPhone 8
-    runs-on: macos-latest
-    needs: Build-Project
-    steps:
+        
       - name: Unitary Test iPhone 8
         run: xcodebuild
           -scheme "TesteUnitario"
